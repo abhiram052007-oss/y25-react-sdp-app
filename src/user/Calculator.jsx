@@ -33,7 +33,7 @@ export default function Calculator() {
     setExpenses(expenses.filter((_, i) => i !== index));
   };
 
-  // ✅ Calculate Total Amount
+  
   const totalAmount = expenses.reduce(
     (total, item) => total + Number(item.amount),
     0
@@ -101,7 +101,7 @@ export default function Calculator() {
         </tbody>
       </table>
 
-      {/* ✅ TOTAL DISPLAY */}
+     
       <h3 style={{ marginTop: "20px", textAlign: "right" }}>
         Total Expense: ₹{totalAmount}
       </h3>
