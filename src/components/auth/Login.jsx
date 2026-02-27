@@ -24,7 +24,17 @@ export default function Login() {
   };
 
   return (
+    <>    
+    <div style={{
+    backgroundColor: "royalblue",
+    width: "100%",
+    padding: "12px",
+    color: "white",
+    fontSize: "20px",
+    fontWeight: "bold"
+    }} >Expenses-Tracking app</div>
     <div className="auth-page">
+      
       <div className="form-container card">
         <h2>Login</h2>
 
@@ -48,5 +58,7 @@ export default function Login() {
         </p>
       </div>
     </div>
+    </>
+
   );
 }
