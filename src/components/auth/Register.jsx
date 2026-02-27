@@ -22,7 +22,6 @@ export default function Register() {
 
     const users = JSON.parse(localStorage.getItem("users")) || [];
 
-    // Check duplicate username
     const userExists = users.find(u => u.username === user.username);
 
     if (userExists) {
@@ -57,7 +56,7 @@ export default function Register() {
           onChange={(e) => setUser({ ...user, email: e.target.value })}
         />
 
-        {/* Gender Dropdown */}
+       
         <select
           onChange={(e) => setUser({ ...user, gender: e.target.value })}
           style={{ width: "100%", padding: "8px", margin: "8px 0" }}
