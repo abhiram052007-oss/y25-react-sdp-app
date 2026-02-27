@@ -22,6 +22,7 @@ export default function Register() {
 
     const users = JSON.parse(localStorage.getItem("users")) || [];
 
+    // Check duplicate username
     const userExists = users.find(u => u.username === user.username);
 
     if (userExists) {
