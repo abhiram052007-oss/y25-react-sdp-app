@@ -10,19 +10,30 @@ export default function Calculator() {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
+  const [editIndex, setEditIndex] = useState(-1); 
 
   useEffect(() => {
     sessionStorage.setItem("history", JSON.stringify(expenses));
   }, [expenses]);
 
-  const handleAdd = () => {
+  const handleAddOrUpdate = () => {
     if (!amount || !category || !date) {
       alert("Fill all fields");
       return;
     }
 
     const newExpense = { amount, category, date };
-    setExpenses([...expenses, newExpense]);
+
+    if (editIndex === -1) {
+      // Add new expense
+      setExpenses([...expenses, newExpense]);
+    } else {
+      // Update existing expense
+      const updatedExpenses = [...expenses];
+      updatedExpenses[editIndex] = newExpense;
+      setExpenses(updatedExpenses);
+      setEditIndex(-1);
+    }
 
     setAmount("");
     setCategory("");
@@ -33,7 +44,13 @@ export default function Calculator() {
     setExpenses(expenses.filter((_, i) => i !== index));
   };
 
-  
+  const handleEdit = (index) => {
+    setAmount(expenses[index].amount);
+    setCategory(expenses[index].category);
+    setDate(expenses[index].date);
+    setEditIndex(index);
+  };
+
   const totalAmount = expenses.reduce(
     (total, item) => total + Number(item.amount),
     0
@@ -41,7 +58,7 @@ export default function Calculator() {
 
   return (
     <div className="card">
-      <h2>ADD Expense</h2>
+      <h2>Add Expense</h2>
 
       <div className="expense-form">
         <input
@@ -64,7 +81,9 @@ export default function Calculator() {
           onChange={(e) => setDate(e.target.value)}
         />
 
-        <button className="btn" onClick={handleAdd}>Add</button>
+        <button className="btn" onClick={handleAddOrUpdate}>
+          {editIndex === -1 ? "Add" : "Update"}
+        </button>
       </div>
 
       <table className="expense-table">
@@ -73,13 +92,14 @@ export default function Calculator() {
             <th>Amount</th>
             <th>Category</th>
             <th>Date</th>
+            <th>Edit</th>
             <th>Delete</th>
           </tr>
         </thead>
         <tbody>
           {expenses.length === 0 ? (
             <tr>
-              <td colSpan="4">No Expenses Added</td>
+              <td colSpan="5">No Expenses Added</td>
             </tr>
           ) : (
             expenses.map((item, index) => (
@@ -87,6 +107,14 @@ export default function Calculator() {
                 <td>₹{item.amount}</td>
                 <td>{item.category}</td>
                 <td>{item.date}</td>
+                <td>
+                  <button
+                    className="btn"
+                    onClick={() => handleEdit(index)}
+                  >
+                    Edit
+                  </button>
+                </td>
                 <td>
                   <button
                     className="delete-btn"
@@ -101,7 +129,6 @@ export default function Calculator() {
         </tbody>
       </table>
 
-     
       <h3 style={{ marginTop: "20px", textAlign: "right" }}>
         Total Expense: ₹{totalAmount}
       </h3>
