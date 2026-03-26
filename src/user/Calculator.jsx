@@ -25,10 +25,10 @@ export default function Calculator() {
     const newExpense = { amount, category, date };
 
     if (editIndex === -1) {
-      // Add new expense
+  
       setExpenses([...expenses, newExpense]);
     } else {
-      // Update existing expense
+    
       const updatedExpenses = [...expenses];
       updatedExpenses[editIndex] = newExpense;
       setExpenses(updatedExpenses);
