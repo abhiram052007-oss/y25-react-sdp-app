@@ -29,8 +29,8 @@ export default function Register() {
   };
   return (
     <>
-      <div className="bg-blue-700 w-full p-3 text-white text-lg font-bold">
-        Expenses-Tracking App
+      <div className="bg-blue-700 w-full p-3 text-white text-lg font-bold " style={{textAlign:"center"}}>
+        Expenses Tracking App
       </div>
       <div className="flex justify-center items-center h-[90vh] bg-gray-100">
         <div className="bg-white p-6 rounded shadow w-80">
