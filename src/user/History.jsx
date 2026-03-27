@@ -3,10 +3,18 @@ import { useState, useEffect } from "react";
 export default function History() {
 
   const [expenses, setExpenses] = useState([]);
-
+  const [apiData, setApiData] = useState([]); // 👈 API state
   useEffect(() => {
     const stored = JSON.parse(sessionStorage.getItem("history")) || [];
     setExpenses(stored);
+  }, []);
+
+  // Fetch API data
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/posts?_limit=5")
+      .then((res) => res.json())
+      .then((data) => setApiData(data))
+      .catch((err) => console.log(err));
   }, []);
 
   const handleDelete = (index) => {
@@ -14,12 +22,10 @@ export default function History() {
     setExpenses(updated);
     sessionStorage.setItem("history", JSON.stringify(updated));
   };
-
   const handleEdit = (index) => {
     const newAmount = prompt("Enter new amount:", expenses[index].amount);
     const newCategory = prompt("Enter new category:", expenses[index].category);
     const newDate = prompt("Enter new date:", expenses[index].date);
-
     if (newAmount && newCategory && newDate) {
       const updated = [...expenses];
       updated[index] = {
@@ -31,11 +37,9 @@ export default function History() {
       sessionStorage.setItem("history", JSON.stringify(updated));
     }
   };
-
   return (
     <div className="card">
       <h2>Expense History</h2>
-
       <table className="expense-table">
         <thead>
           <tr>
@@ -46,7 +50,6 @@ export default function History() {
             <th>Delete</th>
           </tr>
         </thead>
-
         <tbody>
           {expenses.length === 0 ? (
             <tr>
@@ -73,6 +76,13 @@ export default function History() {
           )}
         </tbody>
       </table>
+      <h3 style={{ marginTop: "20px" }}>API Data (Demo)</h3>
+      {apiData.map((item) => (
+        <div key={item.id}>
+          <p>{item.title}</p>
+        </div>
+      ))}
+
     </div>
   );
 }
