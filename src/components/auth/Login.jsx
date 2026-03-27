@@ -24,41 +24,45 @@ export default function Login() {
   };
 
   return (
-    <>    
-    <div style={{
-    backgroundColor: "royalblue",
-    width: "100%",
-    padding: "12px",
-    color: "white",
-    fontSize: "20px",
-    fontWeight: "bold"
-    }} >Expenses-Tracking app</div>
-    <div className="auth-page">
-      
-      <div className="form-container card">
-        <h2>Login</h2>
+  <>
+
+    <div className="bg-blue-700 w-full p-3 text-white text-lg font-bold">
+      Expenses-Tracking App
+    </div>
+    <div className="flex justify-center items-center h-[90vh] bg-gray-100">
+      <div className="bg-white p-6 rounded shadow w-80">
+
+        <h2 className="text-xl font-semibold mb-4 text-center">Login</h2>
 
         <input
+          className="w-full border p-2 mb-3 rounded"
           placeholder="Username"
           onChange={(e) => setUsername(e.target.value)}
         />
 
         <input
           type="password"
+          className="w-full border p-2 mb-3 rounded"
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button className="btn" onClick={handleLogin}>
+        <button
+          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition"
+          onClick={handleLogin}
+        >
           Login
         </button>
 
-        <p>
-          Don't have account? <Link to="/register">Register</Link>
+        <p className="mt-3 text-sm text-center">
+          Don't have account?{" "}
+          <Link className="text-blue-500 hover:underline" to="/register">
+            Register
+          </Link>
         </p>
+
       </div>
     </div>
-    </>
-
-  );
+  </>
+);
 }
