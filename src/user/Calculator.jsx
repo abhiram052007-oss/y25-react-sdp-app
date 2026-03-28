@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from "recharts";
 
 export default function Calculator() {
-
   const [expenses, setExpenses] = useState(() => {
     const stored = sessionStorage.getItem("history");
     return stored ? JSON.parse(stored) : [];
@@ -10,7 +17,7 @@ export default function Calculator() {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
-  const [editIndex, setEditIndex] = useState(-1); 
+  const [editIndex, setEditIndex] = useState(-1);
 
   useEffect(() => {
     sessionStorage.setItem("history", JSON.stringify(expenses));
@@ -25,10 +32,8 @@ export default function Calculator() {
     const newExpense = { amount, category, date };
 
     if (editIndex === -1) {
-  
       setExpenses([...expenses, newExpense]);
     } else {
-    
       const updatedExpenses = [...expenses];
       updatedExpenses[editIndex] = newExpense;
       setExpenses(updatedExpenses);
@@ -55,6 +60,19 @@ export default function Calculator() {
     (total, item) => total + Number(item.amount),
     0
   );
+
+  // 📊 Prepare category-wise data
+  const categoryData = Object.values(
+    expenses.reduce((acc, item) => {
+      if (!acc[item.category]) {
+        acc[item.category] = { name: item.category, value: 0 };
+      }
+      acc[item.category].value += Number(item.amount);
+      return acc;
+    }, {})
+  );
+
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AA336A"];
 
   return (
     <div className="card">
@@ -132,6 +150,34 @@ export default function Calculator() {
       <h3 style={{ marginTop: "20px", textAlign: "right" }}>
         Total Expense: ₹{totalAmount}
       </h3>
+
+      <h3 style={{ marginTop: "30px" }}>Expense Distribution</h3>
+
+      {expenses.length > 0 && (
+        <div style={{ width: "100%", height: 300 }}>
+          <ResponsiveContainer>
+            <PieChart>
+              <Pie
+                data={categoryData}
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                dataKey="value"
+                label
+              >
+                {categoryData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      )}
     </div>
   );
 }
