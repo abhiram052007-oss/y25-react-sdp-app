@@ -23,14 +23,12 @@ export default function Login() {
   return (
   <div className="min-h-screen bg-gray-100 flex flex-col">
     
-    {/* Header */}
     <header className="bg-blue-600 text-white text-center py-4 shadow-md">
       <h1 className="text-2xl font-bold">
         Expense Tracking App
       </h1>
     </header>
 
-    {/* Centered Login */}
     <div className="flex flex-1 justify-center items-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-80">
         <h2 className="text-xl font-semibold mb-4 text-center">
